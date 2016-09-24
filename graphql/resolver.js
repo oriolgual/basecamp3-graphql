@@ -1,7 +1,7 @@
 'use strict';
 require('dotenv').config();
 
-const Basecamp = require('./basecamp.js');
+const Basecamp = require('../lib/basecamp.js');
 
 class Resolver {
   constructor() {
