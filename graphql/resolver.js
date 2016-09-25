@@ -1,11 +1,11 @@
 'use strict';
 require('dotenv').config();
 
-const Basecamp = require('../lib/basecamp.js');
+const BasecampClient = require('../lib/basecamp-client.js');
 
 class Resolver {
   constructor() {
-    this.basecampClient = new Basecamp(
+    this.basecampClient = new BasecampClient(
       process.env.CLIENT_ID,
       process.env.CLIENT_SECRET,
       process.env.OAUTH_TOKEN,
@@ -26,6 +26,22 @@ class Resolver {
 
   basecamp(id) {
     return this.basecampClient.getBasecamp(id).then(basecamp => basecamp);
+  }
+
+  recordings(type) {
+    return this.basecampClient.getRecordings(type).then(recordings => recordings);
+  }
+
+  messages(basecamp) {
+    var message_board = basecamp.dock.find(feature => feature.name === 'message_board');
+
+    console.log(message_board);
+
+    if (message_board === undefined) {
+      return [];
+    }
+
+    return this.basecampClient.getMessages(basecamp.id, message_board.id).then(messages => messages);
   }
 }
 
