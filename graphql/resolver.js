@@ -5,7 +5,7 @@ const Basecamp = require('../lib/basecamp.js');
 
 class Resolver {
   constructor() {
-    this.basecamp = new Basecamp(
+    this.basecampClient = new Basecamp(
       process.env.CLIENT_ID,
       process.env.CLIENT_SECRET,
       process.env.OAUTH_TOKEN,
@@ -13,11 +13,19 @@ class Resolver {
   }
 
   people() {
-    return this.basecamp.getPeople().then(people => people);
+    return this.basecampClient.getPeople().then(people => people);
   }
 
   person(id) {
-    return this.basecamp.getPerson(id).then(person => person);
+    return this.basecampClient.getPerson(id).then(person => person);
+  }
+
+  basecamps() {
+    return this.basecampClient.getBasecamps().then(basecamps => basecamps);
+  }
+
+  basecamp(id) {
+    return this.basecampClient.getBasecamp(id).then(basecamp => basecamp);
   }
 }
 

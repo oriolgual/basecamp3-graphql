@@ -51,6 +51,35 @@ const PersonType = new GraphQLObjectType({
   }),
 });
 
+const BasecampType = new GraphQLObjectType({
+  name: 'Basecamp',
+  description: 'Basecamps are how you organize everything.',
+  fields: () => ({
+    id: {type: GraphQLString},
+    status: {type: GraphQLBoolean},
+    bookmarked: {type: GraphQLBoolean},
+    createdAt: {
+      type: GraphQLString,
+      resolve: basecamp => basecamp.created_at
+    },
+    updatedAt: {
+      type: GraphQLString,
+      resolve: basecamp => basecamp.updated_at
+    },
+    name: {type: GraphQLString},
+    description: {type: GraphQLString},
+    bookmarkUrl: {
+      type: GraphQLString,
+      resolve: basecamp => basecamp.bookmark_url
+    },
+    url: {type: GraphQLString},
+    appUrl: {
+      type: GraphQLString,
+      resolve: basecamp => basecamp.app_url
+    },
+  }),
+});
+
 const QueryType = new GraphQLObjectType({
   name: 'Query',
   description: 'The root of all... queries',
@@ -65,6 +94,17 @@ const QueryType = new GraphQLObjectType({
         id: { type: GraphQLString },
       },
       resolve: (root, args) => resolver.person(args.id),
+    },
+    basecamps: {
+      type: new GraphQLList(BasecampType),
+      resolve: () => resolver.basecamps(),
+    },
+    basecamp: {
+      type: BasecampType,
+      args: {
+        id: { type: GraphQLString },
+      },
+      resolve: (root, args) => resolver.basecamp(args.id),
     },
   }),
 });
