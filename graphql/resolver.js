@@ -4,11 +4,11 @@ require('dotenv').config();
 const BasecampClient = require('../lib/basecamp-client.js');
 
 class Resolver {
-  constructor() {
+  constructor(authToken) {
     this.basecampClient = new BasecampClient(
       process.env.CLIENT_ID,
       process.env.CLIENT_SECRET,
-      process.env.OAUTH_TOKEN,
+      authToken,
       'Basecamp 3 GraphQL wrapper (oriol@codegram.com)');
   }
 
@@ -42,6 +42,18 @@ class Resolver {
     }
 
     return this.basecampClient.getMessages(basecamp.id, message_board.id).then(messages => messages);
+  }
+
+  todos(basecamp) {
+    var todoset = basecamp.dock.find(feature => feature.name === 'todoset');
+
+    console.log(todoset);
+
+    if (todoset === undefined) {
+      return [];
+    }
+
+    return this.basecampClient.getTodos(basecamp.id, todoset.id).then(todos => todos);
   }
 }
 

@@ -6,7 +6,6 @@ const GraphQLObjectType = graphql.GraphQLObjectType;
 const GraphQLString = graphql.GraphQLString;
 
 const Resolver = require('../resolver.js');
-const resolver = new Resolver();
 
 const PersonType = require('./person.js');
 const BasecampType = require('./basecamp.js');
@@ -17,27 +16,36 @@ const QueryType = new GraphQLObjectType({
   fields: () => ({
     people: {
       type: new GraphQLList(PersonType),
-      resolve: () => resolver.people(),
+      resolve(parentValue, _, rootValue) {
+        return new Resolver(rootValue.session.authToken).people()
+      }
     },
     person: {
       type: PersonType,
       args: {
         id: { type: GraphQLString },
       },
-      resolve: (root, args) => resolver.person(args.id),
+      resolve(parentValue, args, rootValue) {
+        return new Resolver(rootValue.session.authToken).person(args.id)
+      }
     },
     basecamps: {
       type: new GraphQLList(BasecampType),
-      resolve: () => resolver.basecamps(),
+      resolve(parentValue, _, rootValue) {
+        return new Resolver(rootValue.session.authToken).basecamps()
+      }
     },
     basecamp: {
       type: BasecampType,
       args: {
         id: { type: GraphQLString },
       },
-      resolve: (root, args) => resolver.basecamp(args.id),
+      resolve(parentValue, args, rootValue) {
+        return new Resolver(rootValue.session.authToken).basecamp(args.id)
+      }
     },
   }),
 });
+
 
 module.exports = QueryType;

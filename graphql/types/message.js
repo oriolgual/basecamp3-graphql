@@ -6,6 +6,7 @@ const GraphQLObjectType = graphql.GraphQLObjectType;
 const GraphQLString = graphql.GraphQLString;
 
 const PersonType = require('./person.js');
+const BasecampType = require('./basecamp.js');
 
 const MessageType = new GraphQLObjectType({
   name: 'Message',
@@ -35,9 +36,12 @@ const MessageType = new GraphQLObjectType({
       type: GraphQLString,
       resolve: message => message.comments_url
     },
+    // TODO: Use ES6 since module.exports is being overwrittn, see:
+    // http://stackoverflow.com/questions/38172982/getting-field-type-error-on-complex-object-in-graphql
+    //
     // basecamp: {
     //   type: BasecampType,
-    //   resolve: basecamp => new BasecampType(basecamp.bucket)
+    //   resolve: message => message.bucket
     // },
     creator: {
       type: PersonType,
