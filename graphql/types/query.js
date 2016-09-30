@@ -5,8 +5,6 @@ const GraphQLList = graphql.GraphQLList;
 const GraphQLObjectType = graphql.GraphQLObjectType;
 const GraphQLString = graphql.GraphQLString;
 
-const Resolver = require('../resolver.js');
-
 const PersonType = require('./person.js');
 const BasecampType = require('./basecamp.js');
 
@@ -17,7 +15,7 @@ const QueryType = new GraphQLObjectType({
     people: {
       type: new GraphQLList(PersonType),
       resolve(parentValue, _, rootValue) {
-        return new Resolver(rootValue.session.authToken).people()
+        return resolver.people()
       }
     },
     person: {
@@ -26,13 +24,17 @@ const QueryType = new GraphQLObjectType({
         id: { type: GraphQLString },
       },
       resolve(parentValue, args, rootValue) {
-        return new Resolver(rootValue.session.authToken).person(args.id)
+        return rootValue.resolver.person(args.id)
       }
     },
     basecamps: {
       type: new GraphQLList(BasecampType),
-      resolve(parentValue, _, rootValue) {
-        return new Resolver(rootValue.session.authToken).basecamps()
+      resolve(parentValue, _args, _info, _ast) {
+        // parentValue is the rootValue of the Schema, defined at index.js
+        // args is self explanatory
+        // info, seems to be express
+        // ast, is the Abstract Syntax Tree of all the Graph
+        return parentValue.resolver.basecamps()
       }
     },
     basecamp: {
@@ -41,7 +43,7 @@ const QueryType = new GraphQLObjectType({
         id: { type: GraphQLString },
       },
       resolve(parentValue, args, rootValue) {
-        return new Resolver(rootValue.session.authToken).basecamp(args.id)
+        return parentValue.resolver.basecamp(args.id)
       }
     },
   }),

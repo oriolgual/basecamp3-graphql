@@ -4,13 +4,15 @@ const graphqlHTTP = require('express-graphql');
 const graphql = require('graphql');
 const session = require('express-session');
 const BasecampAuth = require('./lib/basecamp-auth.js');
+const BasecampClient = require('./lib/basecamp-client.js');
+const Schema = require('./graphql/schema.js');
+const Resolver = require('./graphql/resolver.js');
 
 const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET;
 const basecampAuth = new BasecampAuth(client_id, client_secret);
 
 // Construct a schema, using GraphQL schema language
-const schema = require('./graphql/schema.js');
 
 const app = express();
 app.set('port', (process.env.PORT || 5000));
@@ -20,18 +22,22 @@ app.get('/', function (req, res) {
   res.send('<a href="' + basecampAuth.authorizationUri() + '">Authenticate with Basecamp 3</a>');
 });
 
-app.get('/auth', function (req, res) {
-  const authCode = req.query.code;
-  const session = req.session;
+app.get('/auth', function (request, response) {
+  const authCode = request.query.code;
+  const session = request.session;
   basecampAuth.createToken(authCode).then(token => {
-    req.session.authToken = token.refresh_token;
-    res.redirect('/graphql');
+    console.log("Saving Basecamp token");
+    console.log(token);
+    request.session.oAuth = token;
+    response.redirect('/graphql');
   });
 });
 
 app.use('/graphql', graphqlHTTP((request) => ({
-  schema: schema,
-  rootValue: { session: request.session },
+  schema: Schema,
+  rootValue: {
+    resolver: new Resolver(new BasecampClient(basecampAuth, request.session.oAuth, 'Basecamp 3 GraphQL wrapper (oriol@codegram.com)'))
+  },
   graphiql: true,
 })));
 
