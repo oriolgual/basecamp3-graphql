@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "description": "A GraphQL API that wraps Basecamp 3 REST API",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oriolgual/basecamp3-graphql.git"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
