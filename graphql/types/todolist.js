@@ -64,8 +64,8 @@ const TodolistType = new GraphQLObjectType({
     },
     todos: {
       type: new GraphQLList(TodoType),
-      resolve(parentValue, _args, _info, ast) {
-        return ast.rootValue.resolver.todos(parentValue.bucket, parentValue);
+      resolve(parentValue, _args, context, _ast) {
+        return context.resolver.todos(parentValue.bucket, parentValue);
       }
     },
   }),

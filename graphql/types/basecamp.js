@@ -36,14 +36,14 @@ const BasecampType = new GraphQLObjectType({
     },
     messages: {
       type: new GraphQLList(MessageType),
-      resolve(parentValue, _args, _info, ast) {
-        return ast.rootValue.resolver.messages(parentValue);
+      resolve(parentValue, _args, context, _ast) {
+        return context.resolver.messages(parentValue);
       }
     },
     todolists: {
       type: new GraphQLList(TodolistType),
-      resolve(parentValue, _args, _info, ast) {
-        return ast.rootValue.resolver.todolists(parentValue);
+      resolve(parentValue, _args, context, _ast) {
+        return context.resolver.todolists(parentValue);
       }
     }
   }),

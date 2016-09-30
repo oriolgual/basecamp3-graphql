@@ -26,8 +26,6 @@ app.get('/auth', function (request, response) {
   const authCode = request.query.code;
   const session = request.session;
   basecampAuth.createToken(authCode).then(token => {
-    console.log("Saving Basecamp token");
-    console.log(token);
     request.session.oAuth = token;
     response.redirect('/graphql');
   });
@@ -35,7 +33,8 @@ app.get('/auth', function (request, response) {
 
 app.use('/graphql', graphqlHTTP((request) => ({
   schema: Schema,
-  rootValue: {
+  rootValue: {},
+  context: {
     resolver: new Resolver(new BasecampClient(basecampAuth, request.session.oAuth, 'Basecamp 3 GraphQL wrapper (oriol@codegram.com)'))
   },
   graphiql: true,

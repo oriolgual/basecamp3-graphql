@@ -14,8 +14,8 @@ const QueryType = new GraphQLObjectType({
   fields: () => ({
     people: {
       type: new GraphQLList(PersonType),
-      resolve(parentValue, _, rootValue) {
-        return resolver.people()
+      resolve(_parentValue, _args, context, _ast) {
+        return context.resolver.people()
       }
     },
     person: {
@@ -23,18 +23,14 @@ const QueryType = new GraphQLObjectType({
       args: {
         id: { type: GraphQLString },
       },
-      resolve(parentValue, args, rootValue) {
-        return rootValue.resolver.person(args.id)
+      resolve(_parentValue, args, context, _ast) {
+        return context.resolver.person(args.id)
       }
     },
     basecamps: {
       type: new GraphQLList(BasecampType),
-      resolve(parentValue, _args, _info, _ast) {
-        // parentValue is the rootValue of the Schema, defined at index.js
-        // args is self explanatory
-        // info, seems to be express
-        // ast, is the Abstract Syntax Tree of all the Graph
-        return parentValue.resolver.basecamps()
+      resolve(_parentValue, _args, context, _ast) {
+        return context.resolver.basecamps()
       }
     },
     basecamp: {
@@ -42,12 +38,11 @@ const QueryType = new GraphQLObjectType({
       args: {
         id: { type: GraphQLString },
       },
-      resolve(parentValue, args, rootValue) {
-        return parentValue.resolver.basecamp(args.id)
+      resolve(_parentValue, args, context, _ast) {
+        return context.resolver.basecamp(args.id)
       }
     },
   }),
 });
-
 
 module.exports = QueryType;
