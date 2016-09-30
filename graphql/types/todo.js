@@ -8,6 +8,7 @@ const GraphQLBoolean = graphql.GraphQLBoolean;
 
 const PersonType = require('./person.js');
 const BasecampType = require('./basecamp.js');
+const CommentType = require('./comment.js');
 
 const TodoType = new GraphQLObjectType({
   name: 'Todo',
@@ -66,6 +67,12 @@ const TodoType = new GraphQLObjectType({
     },
     assignees: {
       type: new GraphQLList(PersonType),
+    },
+    comments: {
+      type: new GraphQLList(CommentType),
+      resolve(parentValue, _args, context, _ast) {
+        return context.resolver.comments(parentValue.bucket, parentValue);
+      }
     }
   }),
 });

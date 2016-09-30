@@ -7,6 +7,7 @@ const GraphQLString = graphql.GraphQLString;
 
 const PersonType = require('./person.js');
 const BasecampType = require('./basecamp.js');
+const CommentType = require('./comment.js');
 
 const MessageType = new GraphQLObjectType({
   name: 'Message',
@@ -56,7 +57,13 @@ const MessageType = new GraphQLObjectType({
       type: GraphQLString,
       resolve: message => message.subscription_url
     },
-    subject: {type: GraphQLString}
+    subject: {type: GraphQLString},
+    comments: {
+      type: new GraphQLList(CommentType),
+      resolve(parentValue, _args, context, _ast) {
+        return context.resolver.comments(parentValue.bucket, parentValue);
+      }
+    }
   }),
 });
 

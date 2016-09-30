@@ -48,6 +48,10 @@ class Resolver {
   todos(basecamp, todolist) {
     return this.basecampClient.getTodos(basecamp.id, todolist.id);
   }
+
+  comments(basecamp, recording) {
+    return this.basecampClient.getComments(basecamp.id, recording.id);
+  }
 }
 
 module.exports = Resolver;
