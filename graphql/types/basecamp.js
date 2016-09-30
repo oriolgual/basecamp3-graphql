@@ -6,8 +6,7 @@ const GraphQLString = graphql.GraphQLString;
 const GraphQLBoolean = graphql.GraphQLBoolean;
 
 const MessageType = require('./message.js');
-const Resolver = require('../resolver.js');
-const resolver = new Resolver();
+const TodolistType = require('./todolist.js');
 
 const BasecampType = new GraphQLObjectType({
   name: 'Basecamp',
@@ -37,7 +36,15 @@ const BasecampType = new GraphQLObjectType({
     },
     messages: {
       type: new GraphQLList(MessageType),
-      resolve: basecamp => resolver.messages(basecamp)
+      resolve(parentValue, _args, _info, ast) {
+        return ast.rootValue.resolver.messages(parentValue);
+      }
+    },
+    todolists: {
+      type: new GraphQLList(TodolistType),
+      resolve(parentValue, _args, _info, ast) {
+        return ast.rootValue.resolver.todolists(parentValue);
+      }
     }
   }),
 });
