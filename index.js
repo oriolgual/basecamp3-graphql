@@ -16,7 +16,15 @@ const basecampAuth = new BasecampAuth(client_id, client_secret);
 
 const app = express();
 app.set('port', (process.env.PORT || 5000));
-app.use(session({ secret: 'basecamp', cookie: { maxAge: 60000 }}));
+app.use(session({
+  secret: 'basecamp',
+  resave: true,
+  rolling: true,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 3600000
+  }
+}));
 
 app.get('/', function (req, res) {
   res.send('<a href="' + basecampAuth.authorizationUri() + '">Authenticate with Basecamp 3</a>');
