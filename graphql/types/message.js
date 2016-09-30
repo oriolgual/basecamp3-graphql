@@ -61,7 +61,7 @@ const MessageType = new GraphQLObjectType({
     comments: {
       type: new GraphQLList(CommentType),
       resolve(parentValue, _args, context, _ast) {
-        return context.resolver.comments(parentValue.bucket, parentValue);
+        return context.resolver.comments(parentValue.url, parentValue.bucket, parentValue);
       }
     }
   }),

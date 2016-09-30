@@ -5,24 +5,24 @@ class Resolver {
     this.basecampClient = basecampClient;
   }
 
-  people() {
-    return this.basecampClient.getPeople();
+  accounts() {
+    return this.basecampClient.getAccounts();
   }
 
-  person(id) {
-    return this.basecampClient.getPerson(id);
+  people(accountId) {
+    return this.basecampClient.getPeople(accountId);
   }
 
-  basecamps() {
-    return this.basecampClient.getBasecamps();
+  person(accountId, id) {
+    return this.basecampClient.getPerson(accountId, id);
   }
 
-  basecamp(id) {
-    return this.basecampClient.getBasecamp(id);
+  basecamps(accountId) {
+    return this.basecampClient.getBasecamps(accountId);
   }
 
-  recordings(type) {
-    return this.basecampClient.getRecordings(type);
+  basecamp(accountId, id) {
+    return this.basecampClient.getBasecamp(accountId, id);
   }
 
   messages(basecamp) {
@@ -32,7 +32,9 @@ class Resolver {
       return [];
     }
 
-    return this.basecampClient.getMessages(basecamp.id, message_board.id);
+    var accountId = basecamp.url.split('/')[3];
+
+    return this.basecampClient.getMessages(accountId, basecamp.id, message_board.id);
   }
 
   todolists(basecamp) {
@@ -42,15 +44,19 @@ class Resolver {
       return [];
     }
 
-    return this.basecampClient.getTodolists(basecamp.id, todoset.id);
+    var accountId = basecamp.url.split('/')[3];
+
+    return this.basecampClient.getTodolists(accountId, basecamp.id, todoset.id);
   }
 
-  todos(basecamp, todolist) {
-    return this.basecampClient.getTodos(basecamp.id, todolist.id);
+  todos(url, basecamp, todolist) {
+    var accountId = url.split('/')[3];
+    return this.basecampClient.getTodos(accountId, basecamp.id, todolist.id);
   }
 
-  comments(basecamp, recording) {
-    return this.basecampClient.getComments(basecamp.id, recording.id);
+  comments(url, basecamp, recording) {
+    var accountId = url.split('/')[3];
+    return this.basecampClient.getComments(accountId, basecamp.id, recording.id);
   }
 }
 
