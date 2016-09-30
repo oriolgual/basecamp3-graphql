@@ -6,7 +6,6 @@ const GraphQLObjectType = graphql.GraphQLObjectType;
 const GraphQLString = graphql.GraphQLString;
 
 const PersonType = require('./person.js');
-const BasecampType = require('./basecamp.js');
 const CommentType = require('./comment.js');
 
 const MessageType = new GraphQLObjectType({
@@ -64,7 +63,7 @@ const MessageType = new GraphQLObjectType({
         return context.resolver.comments(parentValue.url, parentValue.bucket, parentValue);
       }
     }
-  }),
+  })
 });
 
 module.exports = MessageType;

@@ -2,16 +2,15 @@ require("babel-polyfill");
 require('dotenv').config();
 const express = require('express');
 const graphqlHTTP = require('express-graphql');
-const graphql = require('graphql');
 const session = require('express-session');
 const BasecampAuth = require('./lib/basecamp-auth.js');
 const BasecampClient = require('./lib/basecamp-client.js');
 const Schema = require('./graphql/schema.js');
 const Resolver = require('./graphql/resolver.js');
 
-const client_id = process.env.CLIENT_ID;
-const client_secret = process.env.CLIENT_SECRET;
-const basecampAuth = new BasecampAuth(client_id, client_secret);
+const clientId = process.env.CLIENT_ID;
+const clientSecret = process.env.CLIENT_SECRET;
+const basecampAuth = new BasecampAuth(clientId, clientSecret);
 
 // Construct a schema, using GraphQL schema language
 
@@ -27,26 +26,25 @@ app.use(session({
   }
 }));
 
-app.get('/', function (req, res) {
+app.get('/', function(req, res) {
   res.send('<a href="' + basecampAuth.authorizationUri() + '">Authenticate with Basecamp 3</a>');
 });
 
-app.get('/auth', function (request, response) {
+app.get('/auth', function(request, response) {
   const authCode = request.query.code;
-  const session = request.session;
   basecampAuth.createToken(authCode).then(token => {
     request.session.oAuth = token;
     response.redirect('/graphql');
   });
 });
 
-app.use('/graphql', graphqlHTTP((request) => ({
+app.use('/graphql', graphqlHTTP(request => ({
   schema: Schema,
   rootValue: {},
   context: {
     resolver: new Resolver(new BasecampClient(basecampAuth, request.session.oAuth, 'Basecamp 3 GraphQL wrapper (oriol@codegram.com)'))
   },
-  graphiql: true,
+  graphiql: true
 })));
 
 app.listen(app.get('port'), function() {

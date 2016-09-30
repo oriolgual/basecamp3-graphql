@@ -25,7 +25,7 @@ const AccountType = new GraphQLObjectType({
         return context.resolver.basecamps(parentValue.id);
       }
     }
-  }),
+  })
 });
 
 module.exports = AccountType;

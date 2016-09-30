@@ -1,7 +1,6 @@
 const graphql = require('graphql');
 const GraphQLList = graphql.GraphQLList;
 const GraphQLObjectType = graphql.GraphQLObjectType;
-const GraphQLSchema = graphql.GraphQLSchema;
 const GraphQLString = graphql.GraphQLString;
 const GraphQLBoolean = graphql.GraphQLBoolean;
 
@@ -46,7 +45,7 @@ const BasecampType = new GraphQLObjectType({
         return context.resolver.todolists(parentValue);
       }
     }
-  }),
+  })
 });
 
 module.exports = BasecampType;

@@ -22,42 +22,42 @@ const QueryType = new GraphQLObjectType({
     people: {
       type: new GraphQLList(PersonType),
       args: {
-        accountId: { type: GraphQLString },
+        accountId: {type: GraphQLString}
       },
       resolve(_parentValue, args, context, _ast) {
-        return context.resolver.people(args.accountId)
+        return context.resolver.people(args.accountId);
       }
     },
     person: {
       type: PersonType,
       args: {
-        accountId: { type: GraphQLString },
-        id: { type: GraphQLString },
+        accountId: {type: GraphQLString},
+        id: { type: GraphQLString }
       },
       resolve(_parentValue, args, context, _ast) {
-        return context.resolver.person(args.accountId, args.id)
+        return context.resolver.person(args.accountId, args.id);
       }
     },
     basecamps: {
       type: new GraphQLList(BasecampType),
       args: {
-        accountId: { type: GraphQLString },
+        accountId: {type: GraphQLString}
       },
       resolve(_parentValue, args, context, _ast) {
-        return context.resolver.basecamps(args.accountId)
+        return context.resolver.basecamps(args.accountId);
       }
     },
     basecamp: {
       type: BasecampType,
       args: {
-        accountId: { type: GraphQLString },
-        id: { type: GraphQLString },
+        accountId: {type: GraphQLString},
+        id: {type: GraphQLString}
       },
       resolve(_parentValue, args, context, _ast) {
-        return context.resolver.basecamp(args.accountId, args.id)
+        return context.resolver.basecamp(args.accountId, args.id);
       }
-    },
-  }),
+    }
+  })
 });
 
 module.exports = QueryType;

@@ -7,7 +7,6 @@ const GraphQLString = graphql.GraphQLString;
 const GraphQLBoolean = graphql.GraphQLBoolean;
 
 const PersonType = require('./person.js');
-const BasecampType = require('./basecamp.js');
 const TodoType = require('./todo.js');
 
 const TodolistType = new GraphQLObjectType({
@@ -53,7 +52,10 @@ const TodolistType = new GraphQLObjectType({
     name: {type: GraphQLString},
     description: {type: GraphQLString},
     completed: {type: GraphQLBoolean},
-    completed_ratio: {type: GraphQLString},
+    completedRatio: {
+      type: GraphQLString,
+      resolve: todolist => todolist.completed_ratio
+    },
     todosUrl: {
       type: GraphQLString,
       resolve: todolist => todolist.todos_url
@@ -67,8 +69,8 @@ const TodolistType = new GraphQLObjectType({
       resolve(parentValue, _args, context, _ast) {
         return context.resolver.todos(parentValue.url, parentValue.bucket, parentValue);
       }
-    },
-  }),
+    }
+  })
 });
 
 module.exports = TodolistType;

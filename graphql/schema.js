@@ -5,5 +5,5 @@ const GraphQLSchema = graphql.GraphQLSchema;
 const QueryType = require('./types/query.js');
 
 module.exports = new GraphQLSchema({
-  query: QueryType,
+  query: QueryType
 });

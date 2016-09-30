@@ -26,15 +26,15 @@ class Resolver {
   }
 
   messages(basecamp) {
-    var message_board = basecamp.dock.find(feature => feature.name === 'message_board');
+    var messageBoard = basecamp.dock.find(feature => feature.name === 'message_board');
 
-    if (message_board === undefined) {
+    if (messageBoard === undefined) {
       return [];
     }
 
     var accountId = basecamp.url.split('/')[3];
 
-    return this.basecampClient.getMessages(accountId, basecamp.id, message_board.id);
+    return this.basecampClient.getMessages(accountId, basecamp.id, messageBoard.id);
   }
 
   todolists(basecamp) {

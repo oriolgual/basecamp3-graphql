@@ -7,7 +7,6 @@ const GraphQLString = graphql.GraphQLString;
 const GraphQLBoolean = graphql.GraphQLBoolean;
 
 const PersonType = require('./person.js');
-const BasecampType = require('./basecamp.js');
 const CommentType = require('./comment.js');
 
 const TodoType = new GraphQLObjectType({
@@ -66,7 +65,7 @@ const TodoType = new GraphQLObjectType({
       resolve: todo => todo.completion_url
     },
     assignees: {
-      type: new GraphQLList(PersonType),
+      type: new GraphQLList(PersonType)
     },
     comments: {
       type: new GraphQLList(CommentType),
@@ -74,7 +73,7 @@ const TodoType = new GraphQLObjectType({
         return context.resolver.comments(parentValue.url, parentValue.bucket, parentValue);
       }
     }
-  }),
+  })
 });
 
 module.exports = TodoType;
