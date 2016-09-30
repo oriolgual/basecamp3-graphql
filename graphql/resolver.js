@@ -6,23 +6,23 @@ class Resolver {
   }
 
   people() {
-    return this.basecampClient.getPeople().then(people => people);
+    return this.basecampClient.getPeople();
   }
 
   person(id) {
-    return this.basecampClient.getPerson(id).then(person => person);
+    return this.basecampClient.getPerson(id);
   }
 
   basecamps() {
-    return this.basecampClient.getBasecamps().then(basecamps => basecamps);
+    return this.basecampClient.getBasecamps();
   }
 
   basecamp(id) {
-    return this.basecampClient.getBasecamp(id).then(basecamp => basecamp);
+    return this.basecampClient.getBasecamp(id);
   }
 
   recordings(type) {
-    return this.basecampClient.getRecordings(type).then(recordings => recordings);
+    return this.basecampClient.getRecordings(type);
   }
 
   messages(basecamp) {
@@ -32,7 +32,7 @@ class Resolver {
       return [];
     }
 
-    return this.basecampClient.getMessages(basecamp.id, message_board.id).then(messages => messages);
+    return this.basecampClient.getMessages(basecamp.id, message_board.id);
   }
 
   todolists(basecamp) {
@@ -42,7 +42,11 @@ class Resolver {
       return [];
     }
 
-    return this.basecampClient.getTodolists(basecamp.id, todoset.id).then(todos => todos);
+    return this.basecampClient.getTodolists(basecamp.id, todoset.id);
+  }
+
+  todos(basecamp, todolist) {
+    return this.basecampClient.getTodos(basecamp.id, todolist.id);
   }
 }
 

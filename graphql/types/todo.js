@@ -8,67 +8,66 @@ const GraphQLBoolean = graphql.GraphQLBoolean;
 
 const PersonType = require('./person.js');
 const BasecampType = require('./basecamp.js');
-const TodoType = require('./todo.js');
 
-const TodolistType = new GraphQLObjectType({
-  name: 'Todolist',
+const TodoType = new GraphQLObjectType({
+  name: 'Todo',
   description: '',
   fields: () => ({
     id: {type: GraphQLString},
     status: {type: GraphQLString},
     createdAt: {
       type: GraphQLString,
-      resolve: todolist => todolist.created_at
+      resolve: todo => todo.created_at
     },
     updatedAt: {
       type: GraphQLString,
-      resolve: todolist => todolist.updated_at
+      resolve: todo => todo.updated_at
     },
     type: {type: GraphQLString},
     url: {type: GraphQLString},
     appUrl: {
       type: GraphQLString,
-      resolve: todolist => todolist.app_url
+      resolve: todo => todo.app_url
     },
     commentsCount: {
       type: GraphQLString,
-      resolve: todolist => todolist.comments_count
+      resolve: todo => todo.comments_count
     },
     commentsUrl: {
       type: GraphQLString,
-      resolve: todolist => todolist.comments_url
+      resolve: todo => todo.comments_url
     },
     creator: {
       type: PersonType,
-      resolve: todolist => todolist.creator
+      resolve: todo => todo.creator
     },
     bookmarkUrl: {
       type: GraphQLString,
-      resolve: todolist => todolist.bookmark_url
+      resolve: todo => todo.bookmark_url
     },
     subscriptionUrl: {
       type: GraphQLString,
-      resolve: todolist => todolist.subscription_url
+      resolve: todo => todo.subscription_url
     },
-    name: {type: GraphQLString},
     description: {type: GraphQLString},
     completed: {type: GraphQLBoolean},
-    completed_ratio: {type: GraphQLString},
-    todosUrl: {
+    content: {type: GraphQLString},
+    startsOn: {
       type: GraphQLString,
-      resolve: todolist => todolist.todos_url
+      resolve: todo => todo.starts_on
     },
-    appTodosUrl: {
+    dueOn: {
       type: GraphQLString,
-      resolve: todolist => todolist.app_todos_url
+      resolve: todo => todo.due_on
     },
-    todos: {
-      type: new GraphQLList(TodoType),
-      resolve(parentValue, _args, _info, ast) {
-        return ast.rootValue.resolver.todos(parentValue.bucket, parentValue);
-      }
+    completionUrl: {
+      type: GraphQLString,
+      resolve: todo => todo.completion_url
     },
+    assignees: {
+      type: new GraphQLList(PersonType),
+    }
   }),
 });
 
-module.exports = TodolistType;
+module.exports = TodoType;
